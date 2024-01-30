@@ -39,7 +39,7 @@ jobs:
     name: test changed
     needs:
       - changes
-    if: ${{ needs.changes.outputs.frontends == 'true' }}
+    if: ${{ needs.changes.outputs.test == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
