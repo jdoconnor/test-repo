@@ -10,4 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: running test
-        run: echo "test changed ran"
+        # this should fail
+        run: exit 1
+
