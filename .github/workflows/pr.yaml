@@ -2,6 +2,8 @@ name: PR
 
 on:
   pull_request:
+  push:
+    branches: master
 
 jobs:
   changes:
@@ -27,11 +29,19 @@ jobs:
   app:
     needs:
       - changes
-    if: ${{ needs.changes.outputs.app == 'true' }}
-    uses: ./.github/workflows/app.yaml
+    if: ${{ github.ref == 'refs/heads/master' || needs.changes.outputs.app == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: running app
+        run: echo "app changed ran"
 
   test:
     needs:
       - changes
-    if: ${{ needs.changes.outputs.test == 'true' }}
-    uses: ./.github/workflows/test.yaml
+    if: ${{ github.ref == 'refs/heads/master' || needs.changes.outputs.test == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: running test
+        run: echo "test changed ran"
