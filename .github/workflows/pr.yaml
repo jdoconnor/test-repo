@@ -25,14 +25,12 @@ jobs:
               - 'test/**'
 
   app:
-    name: app changed
     needs:
       - changes
     if: ${{ needs.changes.outputs.app == 'true' }}
     uses: ./.github/workflows/app.yaml
 
   test:
-    name: test changed
     needs:
       - changes
     if: ${{ needs.changes.outputs.test == 'true' }}
