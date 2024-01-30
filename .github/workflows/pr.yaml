@@ -7,7 +7,7 @@ on:
 
 jobs:
   changes:
-    if: ${{ github.ref != 'refs/heads/master' }}
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     # Required permissions
     permissions:
