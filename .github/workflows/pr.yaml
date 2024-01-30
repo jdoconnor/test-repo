@@ -1,0 +1,39 @@
+name: PR
+
+on:
+  pull_request:
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    # Required permissions
+    permissions:
+      pull-requests: read
+    # Set job outputs to values from filter step
+    outputs:
+      app: ${{ steps.filter.outputs.app }}
+      test: ${{ steps.filter.outputs.test }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            app:
+              - 'app/**'
+            test:
+              - 'test/**'
+
+  app:
+    name: app changed
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.app == 'true' }}
+    uses: ./.github/workflows/app.yaml
+
+  test:
+    name: test changed
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.test == 'true' }}
+    uses: ./.github/workflows/test.yaml
